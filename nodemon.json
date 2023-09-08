@@ -1,8 +1,5 @@
 {
     "ext": "js,json",
-    "ignore": ["node_modules/", "logs/"],
-    "execMap": {
-      "js": "node --harmony"
-    }
+    "ignore": ["node_modules/", "logs/"]
   }
   

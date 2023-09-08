@@ -14,5 +14,5 @@ app.get('/', (req, res) => {
 
 const port = process.env.PORT
 app.listen(port, () => {
-    console.log('Todo listo señor Grajales 🔥🔥')
+    console.log('Todo listo señor Grajales 🔥🔥 on port: ', port)
 })
