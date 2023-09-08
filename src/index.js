@@ -3,10 +3,10 @@ const express = require('express')
 const app = express()
 require('./database/conection')
 
-const signupRoutes = require('./routes/v1/Session/Signup.routes')
+const routes = require('./routes/v1/')
 
 app.use(express.json())
-app.use('/todo/api/v1', signupRoutes)
+app.use('/todo/api/v1', routes)
 
 app.get('/', (req, res) => {
     res.send('Welcom to your TO-DO APP')

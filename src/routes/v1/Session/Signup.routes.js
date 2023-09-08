@@ -1,5 +1,5 @@
 const { Router }= require('express')
-const controller = require('../../../controllers/v1/Session/Signup.controller')
+const controller = require('../../../controllers/v1/')
 
 const signup = Router() 
 

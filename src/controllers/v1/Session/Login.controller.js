@@ -1,18 +1,17 @@
 const { errorHandlers } = require('../handlers/errorHandlers');
-const { getByUserName } = require('../../../database/services/user.service') 
+const { getUserAuth } = require('../../../database/services/user.service') 
 
-const loginUser = async (req, res) => {
+const authUser = async (req, res) => {
 
 	try {
 		const { userName, password } = req.body;
 
-        const userModel = await getByUserName(userName, password)
+        const userModel = await getUserAuth(userName, password)
         if(!userModel) {
 			return res.status(409).json(errorHandlers()
 				.functionNotFound("User dont exists."));
 		}
-
-        if(!userModel.password) {
+        if(!userModel.confirmPwd) {
             return res.status(403).json(errorHandlers()
 				.functionNotFound("Wrong Password."));
         }
@@ -21,7 +20,7 @@ const loginUser = async (req, res) => {
 			success: true,
 			message: "User Loged successfull.",
 			data: {
-				response
+				id: userModel._id
 			}
 		});
         
@@ -32,5 +31,5 @@ const loginUser = async (req, res) => {
 };
 
 module.exports = {
-	loginUser,
+	authUser,
 };

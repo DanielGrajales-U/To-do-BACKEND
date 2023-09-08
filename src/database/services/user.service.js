@@ -6,12 +6,11 @@ const getInfoUser = async (id) => {
     return response
 }  
 
-const getByUserName = async (userName, password) => {
-    const response = await userModel.findOne({userName})
-
+const getUserAuth = async (userName, password) => {
+    let response = await userModel.findOne({userName})
+    
     if(response){
-        const confirmPwd = await bcryptjs.compare(password, response.password)
-        response.password = confirmPwd
+        response.confirmPwd = await bcryptjs.compare(password, response.password)
     }
     return response
 }
@@ -32,7 +31,7 @@ const createUser = async (data) => {
 
 module.exports = {
     getInfoUser,
-    getByUserName,
+    getUserAuth,
     verifyExistUser,
     createUser
 }
