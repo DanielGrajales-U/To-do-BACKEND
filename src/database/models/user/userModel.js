@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  board:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Board' 
+  }]
 });
 
 module.exports = mongoose.model('User', userSchema, 'user')

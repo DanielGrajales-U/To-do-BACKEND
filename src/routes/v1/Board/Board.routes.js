@@ -3,7 +3,7 @@ const controller = require('../../../controllers/v1')
 
 const board = Router()
 
-board.post('/board', controller.addBoard)
+board.post('/createboard', controller.addBoard)
 board.get('/', controller.getAllBoards)
 
 module.exports = board

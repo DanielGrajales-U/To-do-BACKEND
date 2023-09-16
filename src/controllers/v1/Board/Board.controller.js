@@ -1,18 +1,24 @@
 const { errorHandlers } = require('../handlers/errorHandlers') 
+const { getInfoUser } = require('../../../database/services/user.service')
 const { createBoard, verifyBoardExist, getBoards } = require('../../../database/services/board.service')
 
 
 const addBoard = async (req, res) => {
     const {name, userId, todos} = req.body
 
+	const user = await getInfoUser(userId)
+	
 	try {
 		const boardModel = await verifyBoardExist(name)
+		
 		if (boardModel) {
 			return res.status(409).json(errorHandlers()
-				.dataAlreadyExist("Board exists."));
+			.dataAlreadyExist("Board exists."));
 		}
-
+		
         const response = await createBoard({name,userId,todos})
+		user.board = user.board.concat(response)
+		await user.save()
 		res.status(200).json({
 			success: true,
 			message: "Board create successfull.",

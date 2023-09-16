@@ -1,6 +1,15 @@
 const userModel = require('../models/user/userModel')
 const bcryptjs = require('bcryptjs')
 
+const getUser = async () => {
+    const response = await userModel.find({}).populate('board',
+    {
+        name: 1,
+        todos: 1
+    })
+    return response
+}
+
 const getInfoUser = async (id) => {
     const response = await userModel.findById(id)
     return response
@@ -30,6 +39,7 @@ const createUser = async (data) => {
 }
 
 module.exports = {
+    getUser,
     getInfoUser,
     getUserAuth,
     verifyExistUser,

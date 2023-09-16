@@ -7,13 +7,12 @@ const boardSchema = new mongoose.Schema({
         required:true
     },
     userId:{
-        type:mongoose.Schema.ObjectId,
-        ref: 'userModel',
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required:true
     },
     todos: [
         {
-            _id:mongoose.Schema.Types.ObjectId,
             task:{
                 type:String,
                 required: true
