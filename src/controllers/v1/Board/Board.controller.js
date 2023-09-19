@@ -9,16 +9,14 @@ const addBoard = async (req, res) => {
 	const user = await getInfoUser(userId)
 	
 	try {
-		const boardModel = await verifyBoardExist(name)
-		
-		if (boardModel) {
-			return res.status(409).json(errorHandlers()
-			.dataAlreadyExist("Board exists."));
+		const boardExist = user.board.some(todo => todo.name === name)
+		if(!boardExist){
+			const response = await createBoard({name,userId,todos})
+			user.board = user.board.concat(response)
+			await user.save()
+		}else{
+			return res.sendStatus(409)
 		}
-		
-        const response = await createBoard({name,userId,todos})
-		user.board = user.board.concat(response)
-		await user.save()
 		res.status(200).json({
 			success: true,
 			message: "Board create successfull.",
@@ -35,7 +33,6 @@ const addBoard = async (req, res) => {
 const getAllBoards = async (req, res) => {
     try {
 		const boardModel = await getBoards()
-		console.log(boardModel)
 		if (!boardModel) {
 			return res.status(409).json(errorHandlers()
 				.functionNotFound("no se encontro ningun tablero"));

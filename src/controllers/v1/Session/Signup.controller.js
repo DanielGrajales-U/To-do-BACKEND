@@ -3,10 +3,9 @@ const { verifyExistUser, createUser } = require('../../../database/services/user
 
 const registerUser = async (req, res) => {
     const {userName, password, email} = req.body;
-    console.log(userName, password, email)
 
 	try {
-		const userModel = await verifyExistUser(userName,email)
+		const userModel = await verifyExistUser(email)
 		if (userModel) {
 			return res.status(409).json(errorHandlers()
 				.dataAlreadyExist("User exists."));

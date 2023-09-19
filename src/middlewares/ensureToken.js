@@ -1,12 +1,20 @@
-export function ensureToken(req, res, next){
-    const bearerHeader = req.headers['authorization']
-    if(bearerHeader !== 'undefined'){
-        const splitBearer = bearerHeader.split(' ')
-        const bearerToken = splitBearer[1]
-        req.token = bearerToken
+const jwt = require('jsonwebtoken')
 
-        next()
-    }else{
+function ensureToken(req, res, next){
+    try{
+        const bearerHeader = req.headers['authorization']
+        if(bearerHeader !== 'undefined'){
+            const splitBearer = bearerHeader.split(' ')
+            const bearerToken = splitBearer[1]
+            const data = jwt.verify(bearerToken, 'my_secret_key')
+            console.log(data)
+            next()
+        }else{
+            res.sendStatus(403)
+        }
+    }catch(err){
         res.sendStatus(403)
     }
 }
+
+module.exports = ensureToken

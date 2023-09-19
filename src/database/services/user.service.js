@@ -11,12 +11,14 @@ const getUser = async () => {
 }
 
 const getInfoUser = async (id) => {
-    const response = await userModel.findById(id)
+    const response = await userModel.findById(id).populate('board',{
+        name: 1
+    })
     return response
 }  
 
-const getUserAuth = async (userName, password) => {
-    let response = await userModel.findOne({userName})
+const getUserAuth = async (email, password) => {
+    let response = await userModel.findOne({email})
     
     if(response){
         response.confirmPwd = await bcryptjs.compare(password, response.password)
@@ -24,8 +26,8 @@ const getUserAuth = async (userName, password) => {
     return response
 }
 
-const verifyExistUser = async (userName, email) => {
-    const response = await userModel.findOne({$or: [{ userName }, { email }]})
+const verifyExistUser = async (email) => {
+    const response = await userModel.findOne({ email })
     return response
 }
 

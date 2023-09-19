@@ -5,18 +5,18 @@ const { getUserAuth } = require('../../../database/services/user.service')
 const authUser = async (req, res) => {
 
 	try {
-		const { userName, password } = req.body;
+		const { email, password} = req.body;
 		
-        const userModel = await getUserAuth(userName, password)
-		const token = jwt.sign({userModel}, 'my_secret_password')
+        const userModel = await getUserAuth(email, password)
         if(!userModel) {
 			return res.status(409).json(errorHandlers()
-				.functionNotFound("User dont exists."));
+			.functionNotFound("User dont exists."));
 		}
         if(!userModel.confirmPwd) {
-            return res.status(403).json(errorHandlers()
-				.functionNotFound("Wrong Password."));
+			return res.status(403).json(errorHandlers()
+			.functionNotFound("Wrong Password."));
         }
+		const token = jwt.sign({_id: userModel._id}, 'my_secret_key', {expiresIn: '24h'})
         res.status(200).json({
 			success: true,
 			message: "User Loged successfull.",
