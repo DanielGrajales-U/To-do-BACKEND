@@ -1,4 +1,4 @@
-const boardModel = require('../models/todoBoard/boardModel')
+const boardModel = require('../models/todoBoard/board.model')
 
 const getBoards = async () => {
     const response = await boardModel.find()
@@ -17,9 +17,38 @@ const verifyBoardExist = async (name) => {
     return response
 }
 
+const updateBoardName = async (boardId, newName) => {
+    try {
+        const board = await boardModel.findById(boardId);
+        if (!board) {
+            throw new Error("Board doesn't exist");
+        }
+
+        board.name = newName;
+        const updatedBoard = await board.save();
+
+        return updatedBoard;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const deleteBoard = async (boardId) => {
+    try {
+        const deletedBoard = await boardModel.findByIdAndRemove(boardId);
+        if (!deletedBoard) {
+            throw new Error("Tablero no encontrado");
+        }
+        return deletedBoard;
+    } catch (error) {
+        throw error;
+    }
+};
 
 module.exports = {
     createBoard,
     getBoards,
-    verifyBoardExist
+    verifyBoardExist,
+    updateBoardName,
+    deleteBoard
 }
