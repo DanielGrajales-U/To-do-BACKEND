@@ -16,6 +16,28 @@ const addTodoToBoard = async (boardId, todoData) => {
     }
 };
 
+const updateTodoStatus = async (boardId, todoId, newStatus) => {
+    try {
+        const board = await boardModel.findById(boardId);
+        if (!board) {
+            throw new Error("Tablero no encontrado");
+        }
+
+        const todo = board.todos.id(todoId);
+        if (!todo) {
+            throw new Error("Todo not Found!");
+        }
+
+        todo.status = newStatus;
+        await board.save();
+
+        return todo;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 const deleteTodoFromBoard = async (boardId, todoId) => {
     try {
         const board = await boardModel.findById(boardId);
@@ -39,5 +61,6 @@ const deleteTodoFromBoard = async (boardId, todoId) => {
 
 module.exports = {
     addTodoToBoard,
+    updateTodoStatus,
     deleteTodoFromBoard
 }

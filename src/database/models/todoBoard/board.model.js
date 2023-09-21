@@ -19,7 +19,6 @@ const boardSchema = new mongoose.Schema({
             },
             status:{
                 type:String,
-                enum:['pending','doing','done'],
                 default: 'pending'
             }
         }

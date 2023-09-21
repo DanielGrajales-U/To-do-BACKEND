@@ -1,4 +1,4 @@
-const { addTodoToBoard,deleteTodoFromBoard } = require('../../../database/services/todo.service')
+const { addTodoToBoard, updateTodoStatus, deleteTodoFromBoard } = require('../../../database/services/todo.service')
 
 const addTodo = async (req, res) => {
     const { id, data } = req.body;
@@ -11,6 +11,25 @@ const addTodo = async (req, res) => {
             message: "Add todo successfully.",
             data: {
                 updatedBoard,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(errorHandlers().internalErrorServer());
+    }
+};
+
+const modifyTodoStatus = async (req, res) => {
+    const { boardId, todoId, newStatus } = req.body;
+
+    try {
+        const updatedTodo = await updateTodoStatus(boardId, todoId, newStatus);
+
+        res.status(200).json({
+            success: true,
+            message: "Todo status modify successfull",
+            data: {
+                updatedTodo,
             },
         });
     } catch (error) {
@@ -40,5 +59,6 @@ const removeTodoFromBoard = async (req, res) => {
 
 module.exports = {
     addTodo,
+    modifyTodoStatus,
     removeTodoFromBoard
 }
