@@ -1,6 +1,6 @@
 const { errorHandlers } = require('../handlers/errorHandlers') 
 const { getInfoUser } = require('../../../database/services/user.service')
-const { createBoard, getBoards, updateBoardName, deleteBoard } = require('../../../database/services/board.service')
+const { createBoard, getBoards, updateBoardName, deleteBoard, getBoardByUser } = require('../../../database/services/board.service')
 
 const getAllBoards = async (req, res) => {
 	try {
@@ -23,12 +23,30 @@ const getAllBoards = async (req, res) => {
 	}
 }
 
-const addBoard = async (req, res) => {
-    const {name, userId, todos} = req.body
+const getBoardsForUser = async (req, res) => {
+	const userId = req.user
+	try{
+		const boards = await getBoardByUser(userId)
 
-	const user = await getInfoUser(userId)
+		res.status(200).json({
+			success:true,
+			message: 'Get Boards successfully',
+			data:{
+				boards
+			}
+		})
+	}catch(error){
+		console.log(error)
+		res.sendStatus(500)
+	}
+} 
+
+const addBoard = async (req, res) => {
+    const {name, todos} = req.body
+	const userId = req.user._id
 	
 	try {
+		const user = await getInfoUser(userId)
 		const boardExist = user.board.some(todo => todo.name === name)
 		let response;
 		if(!boardExist){
@@ -46,7 +64,6 @@ const addBoard = async (req, res) => {
 			}
 		});
 	} catch (e) {
-        console.log(e)
 		res.status(500).json(errorHandlers().internalErrorServer());
 	}
 };
@@ -65,7 +82,6 @@ const changeBoardName = async (req, res) => {
             },
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json(errorHandlers().internalErrorServer());
     }
 };
@@ -84,13 +100,13 @@ const removeBoard = async (req, res) => {
             },
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json(errorHandlers().internalErrorServer());
     }
 };
 
 module.exports = {
     getAllBoards,
+	getBoardsForUser,
 	addBoard,
 	changeBoardName,
 	removeBoard

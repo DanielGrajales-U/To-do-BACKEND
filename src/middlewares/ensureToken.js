@@ -7,7 +7,11 @@ function ensureToken(req, res, next){
             const splitBearer = bearerHeader.split(' ')
             const bearerToken = splitBearer[1]
             const data = jwt.verify(bearerToken, 'my_secret_key')
-            console.log(data)
+            
+            req.user = {
+                _id:data._id
+            }
+
             next()
         }else{
             res.sendStatus(403)

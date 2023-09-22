@@ -6,7 +6,7 @@ const validateTodoStatus = (req, res, next) => {
     if (!validStatusValues.includes(newStatus)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid Status, Should be 'pendint', 'doing' o 'done' ",
+            message: "Invalid Status, Should be 'pending', 'doing' o 'done' ",
         });
     }
 

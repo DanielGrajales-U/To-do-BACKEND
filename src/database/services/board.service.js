@@ -6,6 +6,11 @@ const getBoards = async () => {
     return response
 }
 
+const getBoardByUser = async (userId) => {
+    const response = await boardModel.find({userId})
+    return response
+}
+
 const createBoard = async (data) => {
     const response = await boardModel.create(data)
     return response
@@ -48,6 +53,7 @@ const deleteBoard = async (boardId) => {
 module.exports = {
     createBoard,
     getBoards,
+    getBoardByUser,
     verifyBoardExist,
     updateBoardName,
     deleteBoard
