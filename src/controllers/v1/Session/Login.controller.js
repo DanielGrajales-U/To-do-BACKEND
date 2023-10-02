@@ -21,7 +21,9 @@ const authUser = async (req, res) => {
 			success: true,
 			message: "User Loged successfull.",
 			data: {
-				id: userModel._id
+				id: userModel._id,
+				userName: userModel.userName,
+				email: userModel.email
 			},
 			token
 		});
