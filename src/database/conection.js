@@ -6,6 +6,7 @@ const todoMongooseConnect = mongoose.connect(uri)
     console.log('✔️ Successfully connected to ToDo database')
   })
   .catch((err) => {
+    console.log(uri)
     console.log(err)
     console.log('❌ Error conection')
   })

@@ -23,7 +23,8 @@ const authUser = async (req, res) => {
 			data: {
 				id: userModel._id,
 				userName: userModel.userName,
-				email: userModel.email
+				email: userModel.email,
+				board: userModel.board
 			},
 			token
 		});
