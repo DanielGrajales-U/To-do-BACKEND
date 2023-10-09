@@ -3,7 +3,7 @@ const errorCodes = require("../enums/error_codes.enum")
 const validateTodo = (req, res, next) => {
     const {data} = req.body
 
-    if(!data || !data.task || !data.description){
+    if(!data || !data.task){
         return res.status(400).json({
             success: false,
             message: 'Miss data',

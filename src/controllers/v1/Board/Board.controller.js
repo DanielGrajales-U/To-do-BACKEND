@@ -42,7 +42,7 @@ const getBoardsForUser = async (req, res) => {
 } 
 
 const addBoard = async (req, res) => {
-    const {name, todos} = req.body
+    const {name, description, todos} = req.body
 	const userId = req.user._id
 	
 	try {
@@ -50,7 +50,7 @@ const addBoard = async (req, res) => {
 		const boardExist = user.board.some(todo => todo.name === name)
 		let response;
 		if(!boardExist){
-			response = await createBoard({name,userId,todos})
+			response = await createBoard({name,userId, description,todos})
 			user.board = user.board.concat(response)
 			await user.save()
 		}else{
@@ -64,6 +64,7 @@ const addBoard = async (req, res) => {
 			}
 		});
 	} catch (e) {
+		console.log(e)
 		res.status(500).json(errorHandlers().internalErrorServer());
 	}
 };

@@ -16,6 +16,13 @@ const boardSchema = new mongoose.Schema({
         ref: 'User',
         required:true
     },
+    description:{
+        type:String,
+        required: true,
+        trim: true,
+        minlength: 10,
+        maxlength: 100,
+    },
     todos: [
         {
             task:{
@@ -27,7 +34,6 @@ const boardSchema = new mongoose.Schema({
             },
             description:{
                 type:String,
-                required: true,
                 trim: true,
                 minlength: 10,
                 maxlength: 100,
